@@ -17,6 +17,7 @@ import com.valashko.xaapi.reply.Reply;
 import com.valashko.xaapi.reply.Report;
 import com.valashko.xaapi.reply.SlaveDeviceHeartbeat;
 import com.valashko.xaapi.reply.WhoisReply;
+import lombok.extern.log4j.Log4j2;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -37,6 +38,7 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.stream.Stream;
 
+@Log4j2
 public class XiaomiGateway {
 
     enum DeviceModel {
@@ -268,7 +270,7 @@ public class XiaomiGateway {
                 } catch (SocketTimeoutException e) {
                     // ignore
                 } catch (IOException | XaapiException e) {
-                    e.printStackTrace();
+                    log.error("Update error", e);
                     continueReceivingUpdates = false;
                 }
             }

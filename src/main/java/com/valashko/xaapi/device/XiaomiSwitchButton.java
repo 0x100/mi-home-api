@@ -3,12 +3,14 @@ package com.valashko.xaapi.device;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.valashko.xaapi.XaapiException;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+@Log4j2
 public class XiaomiSwitchButton extends SlaveDevice implements IInteractiveDevice {
 
     public enum Action {
@@ -46,7 +48,7 @@ public class XiaomiSwitchButton extends SlaveDevice implements IInteractiveDevic
                 updateWithAction(o.get(Property.STATUS).getAsString());
             }
         } catch (XaapiException | JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("Update error", e);
         }
     }
 
