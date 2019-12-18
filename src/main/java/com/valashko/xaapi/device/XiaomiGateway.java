@@ -32,10 +32,12 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Log4j2
@@ -165,10 +167,16 @@ public class XiaomiGateway {
         }
     }
 
-    private SlaveDevice getDevice(String sid) {
+    public SlaveDevice getDevice(String sid) {
         SlaveDevice device = knownDevices.get(sid);
         assert (device.getSid().equals(sid));
         return device;
+    }
+
+    public List<SlaveDevice> getDevicesByType(SlaveDevice.Type deviceType) {
+        return knownDevices.values().stream()
+                .filter(slaveDevice -> slaveDevice.getType() == deviceType)
+                .collect(Collectors.toList());
     }
 
     public String getSid() {
@@ -209,7 +217,7 @@ public class XiaomiGateway {
                 throw new XaapiException("Network error: " + e.getMessage());
             }
         } else {
-            throw new XaapiException("Unable to control device without a key. Did you forget to set a password?");
+            throw new XaapiException("Unable to control device without a key");
         }
     }
 
@@ -223,7 +231,7 @@ public class XiaomiGateway {
                 throw new XaapiException("Network error: " + e.getMessage());
             }
         } else {
-            throw new XaapiException("Unable to control device without a key. Did you forget to set a password?");
+            throw new XaapiException("Unable to control device without a key");
         }
     }
 
@@ -268,7 +276,7 @@ public class XiaomiGateway {
                     String received = new String(incomingMulticastChannel.receive());
                     handleUpdate(GSON.fromJson(received, ReadReply.class), received);
                 } catch (SocketTimeoutException e) {
-                    // ignore
+                    log.error(e::getMessage);
                 } catch (IOException | XaapiException e) {
                     log.error("Update error", e);
                     continueReceivingUpdates = false;
