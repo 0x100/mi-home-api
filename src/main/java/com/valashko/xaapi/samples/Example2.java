@@ -44,12 +44,10 @@ public class Example2 {
 
         System.out.println("Started");
         gateway.startReceivingUpdates(threadPool);
-
         threadPool.awaitTermination(TERMINATION_TIMEOUT, TimeUnit.SECONDS); // run timeout
 
         gateway.stopReceivingUpdates();
-        System.out.println("Stopped");
-
         threadPool.shutdown();
+        System.out.println("Stopped");
     }
 }
