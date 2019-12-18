@@ -96,6 +96,7 @@ public class XiaomiGateway {
     private static final Gson GSON = new Gson();
 
     private String sid;
+    private String token;
     private Optional<String> key = Optional.empty();
     private Cipher cipher;
     private IncomingMulticastChannel incomingMulticastChannel;
@@ -127,6 +128,7 @@ public class XiaomiGateway {
     public XiaomiGateway(String ip, String password) throws IOException, XaapiException {
         this(ip);
         configureCipher(password);
+        updateKey(token);
     }
 
     public void configurePassword(String password) throws XaapiException {
@@ -159,6 +161,7 @@ public class XiaomiGateway {
             String replyString = new String(directChannel.receive());
             GetIdListReply reply = GSON.fromJson(replyString, GetIdListReply.class);
             sid = reply.sid;
+            token = reply.token;
             for (String sid : GSON.fromJson(reply.data, String[].class)) {
                 knownDevices.put(sid, readDevice(sid));
             }
@@ -290,7 +293,8 @@ public class XiaomiGateway {
     }
 
     private void handleUpdate(Reply update, String received) throws XaapiException {
-        switch (Command.of(update.cmd)) {
+        Command command = Command.of(update.cmd);
+        switch (command) {
             case REPORT:
                 Report report = GSON.fromJson(received, Report.class);
                 if (isMyself(update.sid)) {
