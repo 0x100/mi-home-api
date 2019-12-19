@@ -17,6 +17,7 @@ import com.mihome.api.core.reply.Reply;
 import com.mihome.api.core.reply.Report;
 import com.mihome.api.core.reply.SlaveDeviceHeartbeat;
 import com.mihome.api.core.reply.WhoisReply;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -37,6 +38,7 @@ import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.stream.Stream;
 
+@Slf4j
 public class XiaomiGateway {
 
     enum DeviceModel {
@@ -101,16 +103,22 @@ public class XiaomiGateway {
     private Map<String, SlaveDevice> knownDevices = new HashMap<>();
     private boolean continueReceivingUpdates;
 
-    public static XiaomiGateway discover() throws IOException {
-        // TODO discover more than one gateway
-        DirectChannel discoveryChannel = new DirectChannel(GROUP, PORT_DISCOVERY);
-        discoveryChannel.send(new WhoisCommand().toBytes());
-        String replyString = new String(discoveryChannel.receive());
-        WhoisReply reply = GSON.fromJson(replyString, WhoisReply.class);
-        if (Integer.parseInt(reply.port) != PORT) {
-            throw new ApiException("Gateway occupies unexpected port: " + reply.port);
+
+    // TODO discover more than one gateway
+    public static XiaomiGateway discover() {
+        try {
+            DirectChannel discoveryChannel = new DirectChannel(GROUP, PORT_DISCOVERY);
+            discoveryChannel.send(new WhoisCommand().toBytes());
+            String replyString = new String(discoveryChannel.receive());
+            WhoisReply reply = GSON.fromJson(replyString, WhoisReply.class);
+            if (Integer.parseInt(reply.port) != PORT) {
+                throw new ApiException("Gateway occupies unexpected port: " + reply.port);
+            }
+            return new XiaomiGateway(reply.ip);
+        } catch (IOException ex) {
+            log.error("error occurred while GW discover", ex);
+            throw new ApiException(ex);
         }
-        return new XiaomiGateway(reply.ip);
     }
 
     public XiaomiGateway(String ip) throws IOException {
