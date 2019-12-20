@@ -2,43 +2,20 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.mihome.api.core.ApiException;
+import com.mihome.api.core.enums.DeviceAction;
+import com.mihome.api.core.enums.SlaveDeviceType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public class XiaomiSocket extends SlaveDevice implements IInteractiveDevice {
 
-    public enum Action {
-        ON("on"),
-        OFF("off"),
-        UNKNOWN("unknown"); // probably device is offline
-
-        private String value;
-
-        Action(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        static Action of(String value) {
-            return Stream.of(values())
-                    .filter(a -> value.equals(a.value))
-                    .findFirst()
-                    .orElseThrow(() -> new ApiException("Unknown action: " + value));
-        }
-    }
-
-    private Action lastAction;
+    private DeviceAction lastAction;
     private Map<SubscriptionToken, Consumer<String>> actionsCallbacks = new HashMap<>();
 
     XiaomiSocket(XiaomiGateway gateway, String sid) {
-        super(gateway, sid, Type.XIAOMI_SOCKET);
+        super(gateway, sid, SlaveDeviceType.XIAOMI_SOCKET);
     }
 
     @Override
@@ -47,7 +24,7 @@ public class XiaomiSocket extends SlaveDevice implements IInteractiveDevice {
             JsonObject o = JSON_PARSER.parse(data).getAsJsonObject();
             if (o.has(Property.STATUS)) {
                 String action = o.get(Property.STATUS).getAsString();
-                lastAction = Action.of(action);
+                lastAction = DeviceAction.of(action);
                 notifyWithAction(action);
             }
         } catch (JsonSyntaxException e) {
@@ -60,19 +37,19 @@ public class XiaomiSocket extends SlaveDevice implements IInteractiveDevice {
         return actionsCallbacks;
     }
 
-    public Action getLastAction() {
+    public DeviceAction getLastAction() {
         return lastAction;
     }
 
     public void turnOn() {
         JsonObject on = new JsonObject();
-        on.addProperty(Property.STATUS, Action.ON.getValue());
+        on.addProperty(Property.STATUS, DeviceAction.ON.getValue());
         gateway.sendDataToDevice(this, on);
     }
 
     public void turnOff() {
         JsonObject off = new JsonObject();
-        off.addProperty(Property.STATUS, Action.OFF.getValue());
+        off.addProperty(Property.STATUS, DeviceAction.OFF.getValue());
         gateway.sendDataToDevice(this, off);
     }
 }

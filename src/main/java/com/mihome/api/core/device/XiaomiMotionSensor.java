@@ -2,38 +2,21 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.mihome.api.core.ApiException;
+import com.mihome.api.core.enums.MotionSensorAction;
+import com.mihome.api.core.enums.SlaveDeviceType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public class XiaomiMotionSensor extends SlaveDevice implements IInteractiveDevice {
 
-    public enum Action {
-        MOTION("motion");
-
-        private String value;
-
-        Action(String value) {
-            this.value = value;
-        }
-
-        static Action of(String value) {
-            return Stream.of(values())
-                    .filter(a -> value.equals(a.value))
-                    .findFirst()
-                    .orElseThrow(() -> new ApiException("Unknown action: " + value));
-        }
-    }
-
-    private Action lastAction;
+    private MotionSensorAction lastAction;
     private Map<SubscriptionToken, Consumer<String>> actionsCallbacks = new HashMap<>();
     private Map<SubscriptionToken, Runnable> motionCallbacks = new HashMap<>();
 
     XiaomiMotionSensor(XiaomiGateway gateway, String sid) {
-        super(gateway, sid, Type.XIAOMI_MOTION_SENSOR);
+        super(gateway, sid, SlaveDeviceType.XIAOMI_MOTION_SENSOR);
     }
 
     @Override
@@ -42,7 +25,7 @@ public class XiaomiMotionSensor extends SlaveDevice implements IInteractiveDevic
             JsonObject o = JSON_PARSER.parse(data).getAsJsonObject();
             if (o.has(Property.STATUS)) {
                 String action = o.get(Property.STATUS).getAsString();
-                lastAction = Action.of(action);
+                lastAction = MotionSensorAction.of(action);
                 notifyWithAction(action);
             }
         } catch (JsonSyntaxException e) {
@@ -55,7 +38,7 @@ public class XiaomiMotionSensor extends SlaveDevice implements IInteractiveDevic
         return actionsCallbacks;
     }
 
-    public Action getLastAction() {
+    public MotionSensorAction getLastAction() {
         return lastAction;
     }
 

@@ -2,6 +2,7 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mihome.api.core.enums.DeviceType;
 
 import java.util.HashMap;
 import java.util.Map;

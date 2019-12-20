@@ -10,6 +10,8 @@ import com.mihome.api.core.command.ReadCommand;
 import com.mihome.api.core.command.WhoisCommand;
 import com.mihome.api.core.command.WriteCommand;
 import com.mihome.api.core.command.WriteSelfCommand;
+import com.mihome.api.core.enums.Command;
+import com.mihome.api.core.enums.DeviceModel;
 import com.mihome.api.core.reply.GatewayHeartbeat;
 import com.mihome.api.core.reply.GetIdListReply;
 import com.mihome.api.core.reply.ReadReply;
@@ -36,54 +38,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executor;
-import java.util.stream.Stream;
 
 @Slf4j
 public class XiaomiGateway {
-
-    enum DeviceModel {
-        CUBE("cube"),
-        MAGNET("magnet"),
-        PLUG("plug"),
-        MOTION("motion"),
-        SWITCH("switch");
-
-        private String value;
-
-        DeviceModel(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        static DeviceModel of(String value) {
-            return Stream.of(values())
-                    .filter(m -> value.equals(m.value))
-                    .findFirst()
-                    .orElse(null);
-        }
-    }
-
-    enum Command {
-        REPORT("report"),
-        HEARTBEAT("heartbeat");
-
-        private String value;
-
-        Command(String value) {
-            this.value = value;
-        }
-
-        static Command of(String value) {
-            return Stream.of(values())
-                    .filter(a -> value.equals(a.value))
-                    .findFirst()
-                    .orElse(null);
-        }
-    }
-
     private static final String GROUP = "224.0.0.50";
     private static final int PORT = 9898;
     private static final int PORT_DISCOVERY = 4321;

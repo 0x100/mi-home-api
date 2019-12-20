@@ -2,23 +2,9 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonParser;
 import com.mihome.api.core.ApiException;
+import com.mihome.api.core.enums.DeviceType;
 
 public abstract class BuiltinDevice {
-
-    public enum DeviceType {
-        XIAOMI_GATEWAY_LIGHT("light"),
-        XIAOMI_GATEWAY_ILLUMINATION_SENSOR("illumination");
-
-        private String suffix;
-
-        DeviceType(String suffix) {
-            this.suffix = suffix;
-        }
-
-        public String getSuffix() {
-            return suffix;
-        }
-    }
 
     protected static JsonParser JSON_PARSER = new JsonParser();
     protected XiaomiGateway gateway;
@@ -27,7 +13,7 @@ public abstract class BuiltinDevice {
 
     public BuiltinDevice(XiaomiGateway gateway, DeviceType deviceType) {
         this.gateway = gateway;
-        this.uid = gateway.getSid() + ":" + deviceType.getSuffix();
+        this.uid = gateway.getSid() + ":" + deviceType.getValue();
         this.deviceType = deviceType;
     }
 

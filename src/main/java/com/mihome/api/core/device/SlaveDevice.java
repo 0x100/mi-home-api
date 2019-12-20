@@ -2,17 +2,10 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonParser;
 import com.mihome.api.core.ApiException;
+import com.mihome.api.core.enums.SlaveDeviceType;
 import org.apache.commons.lang3.NotImplementedException;
 
 public abstract class SlaveDevice {
-
-    public enum Type {
-        XIAOMI_CUBE,
-        XIAOMI_DOOR_WINDOW_SENSOR,
-        XIAOMI_SOCKET,
-        XIAOMI_MOTION_SENSOR,
-        XIAOMI_SWITCH_BUTTON
-    }
 
     static class Property {
         static final String STATUS = "status";
@@ -21,15 +14,15 @@ public abstract class SlaveDevice {
     static JsonParser JSON_PARSER = new JsonParser();
     protected XiaomiGateway gateway;
     private String sid;
-    private Type type;
+    private SlaveDeviceType type;
 
-    SlaveDevice(XiaomiGateway gateway, String sid, Type type) {
+    SlaveDevice(XiaomiGateway gateway, String sid, SlaveDeviceType type) {
         this.gateway = gateway;
         this.sid = sid;
         this.type = type;
     }
 
-    public Type getType() {
+    public SlaveDeviceType getType() {
         return type;
     }
 
@@ -44,31 +37,31 @@ public abstract class SlaveDevice {
     abstract void update(String data);
 
     public XiaomiCube asXiaomiCube() {
-        ensureType(Type.XIAOMI_CUBE);
+        ensureType(SlaveDeviceType.XIAOMI_CUBE);
         return (XiaomiCube) this;
     }
 
     public XiaomiDoorWindowSensor asXiaomiDoorWindowSensor() {
-        ensureType(Type.XIAOMI_DOOR_WINDOW_SENSOR);
+        ensureType(SlaveDeviceType.XIAOMI_DOOR_WINDOW_SENSOR);
         return (XiaomiDoorWindowSensor) this;
     }
 
     public XiaomiSocket asXiaomiSocket() {
-        ensureType(Type.XIAOMI_SOCKET);
+        ensureType(SlaveDeviceType.XIAOMI_SOCKET);
         return (XiaomiSocket) this;
     }
 
     public XiaomiMotionSensor asXiaomiMotionSensor() {
-        ensureType(Type.XIAOMI_MOTION_SENSOR);
+        ensureType(SlaveDeviceType.XIAOMI_MOTION_SENSOR);
         return (XiaomiMotionSensor) this;
     }
 
     public XiaomiSwitchButton asXiaomiSwitchButton() {
-        ensureType(Type.XIAOMI_SWITCH_BUTTON);
+        ensureType(SlaveDeviceType.XIAOMI_SWITCH_BUTTON);
         return (XiaomiSwitchButton) this;
     }
 
-    private void ensureType(Type type) {
+    private void ensureType(SlaveDeviceType type) {
         if (getType() != type) {
             throw new ApiException("Device type mismatch. Expected " + type);
         }

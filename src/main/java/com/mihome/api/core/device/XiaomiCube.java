@@ -3,52 +3,24 @@ package com.mihome.api.core.device;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mihome.api.core.ApiException;
+import com.mihome.api.core.enums.CubeAction;
+import com.mihome.api.core.enums.SlaveDeviceType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
 
-    public enum Action {
-        FLIP_90("flip90"),
-        FLIP_180("flip180"),
-        MOVE("move"),
-        TAP_TWICE("tap_twice"),
-        SHAKE("shake_air"),
-        SWING("swing"),
-        ALERT("alert"),
-        FREE_FALL("free_fall"),
-        ROTATE("rotate");
-
-        private String value;
-
-        Action(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        static Action of(String value) {
-            return Stream.of(values())
-                    .filter(a -> value.equals(a.value))
-                    .findFirst()
-                    .orElseThrow(() -> new ApiException("Unknown action: " + value));
-        }
-    }
-
     private int charge;
-    private Action lastAction;
+    private CubeAction lastAction;
     private Optional<Double> lastRotationAngle = Optional.empty();
     private Map<SubscriptionToken, Consumer<String>> actionsCallbacks = new HashMap<>();
     private Map<SubscriptionToken, Consumer<Double>> rotationCallbacks = new HashMap<>();
 
     public XiaomiCube(XiaomiGateway gateway, String sid) {
-        super(gateway, sid, Type.XIAOMI_CUBE);
+        super(gateway, sid, SlaveDeviceType.XIAOMI_CUBE);
     }
 
     @Override
@@ -59,8 +31,8 @@ public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
                 updateWithAction(o.get(Property.STATUS).getAsString());
                 resetLastRotationValue();
             }
-            if (o.has(Action.ROTATE.getValue())) {
-                String angle = o.get(Action.ROTATE.getValue()).getAsString().replace(',', '.'); // for some reason they use comma as decimal point
+            if (o.has(CubeAction.ROTATE.getValue())) {
+                String angle = o.get(CubeAction.ROTATE.getValue()).getAsString().replace(',', '.'); // for some reason they use comma as decimal point
                 updateWithRotation(Double.parseDouble(angle));
             }
         } catch (JsonSyntaxException e) {
@@ -78,7 +50,7 @@ public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
         return charge;
     }
 
-    public Action getLastAction() {
+    public CubeAction getLastAction() {
         return lastAction;
     }
 
@@ -101,14 +73,14 @@ public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
     }
 
     private void updateWithAction(String action) {
-        lastAction = Action.of(action);
+        lastAction = CubeAction.of(action);
         notifyWithAction(action);
     }
 
     private void updateWithRotation(double value) {
-        lastAction = Action.ROTATE;
+        lastAction = CubeAction.ROTATE;
         lastRotationAngle = Optional.of(value);
-        notifyWithAction(Action.ROTATE.getValue());
+        notifyWithAction(CubeAction.ROTATE.getValue());
         notifyWithRotation(value);
     }
 
