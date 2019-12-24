@@ -4,11 +4,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mihome.api.core.enums.SlaveDeviceType;
 import com.mihome.api.core.enums.SwitchButtonAction;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Log4j2
 public class XiaomiSwitchButton extends SlaveDevice implements IInteractiveDevice {
 
     private SwitchButtonAction lastAction;
@@ -26,7 +28,7 @@ public class XiaomiSwitchButton extends SlaveDevice implements IInteractiveDevic
                 updateWithAction(o.get(Property.STATUS).getAsString());
             }
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("Update error", e);
         }
     }
 

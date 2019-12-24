@@ -4,11 +4,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mihome.api.core.enums.MotionSensorAction;
 import com.mihome.api.core.enums.SlaveDeviceType;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Log4j2
 public class XiaomiMotionSensor extends SlaveDevice implements IInteractiveDevice {
 
     private MotionSensorAction lastAction;
@@ -29,7 +31,7 @@ public class XiaomiMotionSensor extends SlaveDevice implements IInteractiveDevic
                 notifyWithAction(action);
             }
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("Update error", e);
         }
     }
 

@@ -2,15 +2,17 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.mihome.api.core.ApiException;
 import com.mihome.api.core.enums.CubeAction;
 import com.mihome.api.core.enums.SlaveDeviceType;
+import com.valashko.xaapi.ApiException;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Log4j2
 public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
 
     private int charge;
@@ -36,7 +38,7 @@ public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
                 updateWithRotation(Double.parseDouble(angle));
             }
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("Update error", e);
         }
     }
 

@@ -3,11 +3,13 @@ package com.mihome.api.core.device;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mihome.api.core.enums.DeviceType;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Log4j2
 public class XiaomiGatewayIlluminationSensor extends BuiltinDevice {
 
     static class Property {
@@ -28,7 +30,7 @@ public class XiaomiGatewayIlluminationSensor extends BuiltinDevice {
             illumination = o.get(Property.ILLUMINATION).getAsInt();
             notifyWithIlluminationChange(illumination);
         } catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            log.error("Update error", e);
         }
     }
 
