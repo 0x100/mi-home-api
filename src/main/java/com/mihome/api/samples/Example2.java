@@ -1,4 +1,4 @@
-package com.valashko.xaapi.samples;
+package com.mihome.api.samples;
 
 import com.mihome.api.core.device.SlaveDevice;
 import com.mihome.api.core.device.XiaomiDoorWindowSensor;

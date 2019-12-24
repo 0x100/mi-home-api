@@ -1,4 +1,4 @@
-package com.valashko.xaapi.samples;
+package com.mihome.api.samples;
 
 
 import com.mihome.api.core.device.XiaomiGateway;
