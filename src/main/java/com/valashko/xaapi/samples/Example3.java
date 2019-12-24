@@ -1,7 +1,8 @@
 package com.valashko.xaapi.samples;
 
-import com.valashko.xaapi.device.XiaomiGateway;
-import com.valashko.xaapi.device.XiaomiGatewayLight;
+
+import com.mihome.api.core.device.XiaomiGateway;
+import com.mihome.api.core.device.XiaomiGatewayLight;
 
 import java.awt.*;
 

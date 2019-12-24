@@ -12,6 +12,7 @@ import com.mihome.api.core.command.WriteCommand;
 import com.mihome.api.core.command.WriteSelfCommand;
 import com.mihome.api.core.enums.Command;
 import com.mihome.api.core.enums.DeviceModel;
+import com.mihome.api.core.enums.SlaveDeviceType;
 import com.mihome.api.core.reply.GatewayHeartbeat;
 import com.mihome.api.core.reply.GetIdListReply;
 import com.mihome.api.core.reply.ReadReply;
@@ -40,7 +41,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class XiaomiGateway {
@@ -140,7 +140,7 @@ public class XiaomiGateway {
         return device;
     }
 
-    public List<SlaveDevice> getDevicesByType(SlaveDevice.Type deviceType) {
+    public List<SlaveDevice> getDevicesByType(SlaveDeviceType deviceType) {
         return knownDevices.values().stream()
                 .filter(slaveDevice -> slaveDevice.getType() == deviceType)
                 .collect(Collectors.toList());

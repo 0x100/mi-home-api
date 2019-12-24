@@ -1,15 +1,15 @@
 package com.valashko.xaapi.samples;
 
-import com.valashko.xaapi.device.SlaveDevice;
-import com.valashko.xaapi.device.XiaomiDoorWindowSensor;
-import com.valashko.xaapi.device.XiaomiGateway;
+import com.mihome.api.core.device.SlaveDevice;
+import com.mihome.api.core.device.XiaomiDoorWindowSensor;
+import com.mihome.api.core.device.XiaomiGateway;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static com.valashko.xaapi.device.SlaveDevice.Type.XIAOMI_DOOR_WINDOW_SENSOR;
+import static com.mihome.api.core.enums.SlaveDeviceType.XIAOMI_DOOR_WINDOW_SENSOR;
 
 public class Example2 {
 
