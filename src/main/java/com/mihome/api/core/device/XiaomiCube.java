@@ -2,17 +2,17 @@ package com.mihome.api.core.device;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mihome.api.core.ApiException;
 import com.mihome.api.core.enums.CubeAction;
 import com.mihome.api.core.enums.SlaveDeviceType;
-import com.valashko.xaapi.ApiException;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@Log4j2
+@Slf4j
 public class XiaomiCube extends SlaveDevice implements IInteractiveDevice {
 
     private int charge;
