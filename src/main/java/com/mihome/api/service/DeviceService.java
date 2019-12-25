@@ -13,7 +13,8 @@ import static java.util.Optional.ofNullable;
 
 @Service
 @RequiredArgsConstructor
-public class GatewayService {
+public class DeviceService {
+
     private final XiaomiGateway gateway;
 
     public List<SlaveDevice> getKnownDevices() {

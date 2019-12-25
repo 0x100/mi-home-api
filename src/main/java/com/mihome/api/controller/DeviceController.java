@@ -1,7 +1,7 @@
 package com.mihome.api.controller;
 
 import com.mihome.api.core.device.SlaveDevice;
-import com.mihome.api.service.GatewayService;
+import com.mihome.api.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/devices")
 public class DeviceController {
 
-    private final GatewayService gatewayService;
+    private final DeviceService deviceService;
 
     @GetMapping
     public List<SlaveDevice> getKnownDevices() {
-        return gatewayService.getKnownDevices();
+        return deviceService.getKnownDevices();
     }
 }
