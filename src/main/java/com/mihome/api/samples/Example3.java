@@ -18,7 +18,8 @@ public class Example3 {
 
     public static void main(String[] args) throws Exception {
         String password = "a22b4b5b6c7cc0d";
-        XiaomiGateway gateway = new XiaomiGateway("192.168.1.123", password);
+        XiaomiGateway gateway = XiaomiGateway.discover();
+        gateway.configurePassword(password);
         XiaomiGatewayLight gatewayLight = gateway.getBuiltinLight();
 
         for (int i = 0; i < 20; i++) {
