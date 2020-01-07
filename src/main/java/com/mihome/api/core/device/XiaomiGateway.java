@@ -243,7 +243,7 @@ public class XiaomiGateway {
                     String received = new String(incomingMulticastChannel.receive());
                     handleUpdate(GSON.fromJson(received, ReadReply.class), received);
                 } catch (SocketTimeoutException e) {
-                    log.error(e::getMessage);
+                    log.error(e.getMessage());
                 } catch (IOException e) {
                     log.error("Update error", e);
                     continueReceivingUpdates = false;
