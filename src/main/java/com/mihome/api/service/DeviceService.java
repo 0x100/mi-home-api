@@ -2,6 +2,7 @@ package com.mihome.api.service;
 
 import com.mihome.api.core.device.SlaveDevice;
 import com.mihome.api.core.device.XiaomiGateway;
+import com.mihome.api.core.enums.SlaveDeviceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,9 @@ public class DeviceService {
                 .map(Map::values)
                 .map(ArrayList::new)
                 .orElse(new ArrayList<>());
+    }
+
+    public List<SlaveDevice> getDevicesByType(SlaveDeviceType type) {
+        return gateway.getDevicesByType(type);
     }
 }
