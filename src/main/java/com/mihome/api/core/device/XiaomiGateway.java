@@ -134,7 +134,7 @@ public class XiaomiGateway {
         }
     }
 
-    private SlaveDevice getDevice(String sid) {
+    public SlaveDevice getDevice(String sid) {
         SlaveDevice device = knownDevices.get(sid);
         assert (device.getSid().equals(sid));
         return device;
@@ -184,7 +184,7 @@ public class XiaomiGateway {
                 throw new ApiException("Network error: " + e.getMessage());
             }
         } else {
-            throw new ApiException("Unable to control device without a key. Did you forget to set a password?");
+            throw new ApiException("Unable to control device without a key");
         }
     }
 
@@ -198,7 +198,7 @@ public class XiaomiGateway {
                 throw new ApiException("Network error: " + e.getMessage());
             }
         } else {
-            throw new ApiException("Unable to control device without a key. Did you forget to set a password?");
+            throw new ApiException("Unable to control device without a key");
         }
     }
 
@@ -243,7 +243,7 @@ public class XiaomiGateway {
                     String received = new String(incomingMulticastChannel.receive());
                     handleUpdate(GSON.fromJson(received, ReadReply.class), received);
                 } catch (SocketTimeoutException e) {
-                    // ignore
+                    log.error(e.getMessage());
                 } catch (IOException e) {
                     log.error("Update error", e);
                     continueReceivingUpdates = false;
