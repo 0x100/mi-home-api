@@ -137,3 +137,6 @@ hs_err_pid*
 /gradle/wrapper/gradle-wrapper.properties
 /gradlew
 /gradlew.bat
+
+.idea/
+.build
