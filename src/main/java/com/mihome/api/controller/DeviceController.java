@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
+import static reactor.core.publisher.Flux.fromIterable;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,12 +20,12 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @GetMapping
-    public List<SlaveDevice> getKnownDevices() {
-        return deviceService.getKnownDevices();
+    public Flux<SlaveDevice> getKnownDevices() {
+        return fromIterable(deviceService.getKnownDevices());
     }
 
     @GetMapping("/type/{type}")
-    public List<SlaveDevice> getKnownDevicesByType(@PathVariable SlaveDeviceType type) {
-        return deviceService.getDevicesByType(type);
+    public Flux<SlaveDevice> getKnownDevicesByType(@PathVariable SlaveDeviceType type) {
+        return fromIterable(deviceService.getDevicesByType(type));
     }
 }
