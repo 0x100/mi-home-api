@@ -5,6 +5,7 @@ import com.mihome.api.core.device.XiaomiGateway;
 import com.mihome.api.core.enums.SlaveDeviceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +19,17 @@ public class DeviceService {
 
     private final XiaomiGateway gateway;
 
-    public List<SlaveDevice> getKnownDevices() {
+    public Flux<SlaveDevice> getKnownDevices() {
         return ofNullable(gateway.getKnownDevices())
                 .map(Map::values)
                 .map(ArrayList::new)
-                .orElse(new ArrayList<>());
+                .map(Flux::fromIterable)
+                .orElse(Flux.empty());
     }
 
-    public List<SlaveDevice> getDevicesByType(SlaveDeviceType type) {
-        return gateway.getDevicesByType(type);
+    public Flux<SlaveDevice> getDevicesByType(SlaveDeviceType type) {
+        return ofNullable(gateway.getDevicesByType(type))
+                .map(Flux::fromIterable)
+                .orElse(Flux.empty());
     }
 }
