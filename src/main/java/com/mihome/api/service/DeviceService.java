@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -16,7 +15,6 @@ import static java.util.Optional.ofNullable;
 @Service
 @RequiredArgsConstructor
 public class DeviceService {
-
     private final XiaomiGateway gateway;
 
     public Flux<SlaveDevice> getKnownDevices() {
