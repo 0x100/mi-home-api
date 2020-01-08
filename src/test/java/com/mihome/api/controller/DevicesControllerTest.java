@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeviceRouterTest {
+public class DevicesControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
