@@ -43,3 +43,12 @@ threadPool.awaitTermination(60, TimeUnit.SECONDS); // run for 60 seconds
 // cancelling subscription is optional
 gateway.getDevice(buttonSid).asXiaomiSwitchButton().unsubscribeForActions(buttonActionsSubscriptionToken);
 ```
+
+## Docker
+Docker file - projectDir/Dockerfile
+Build image 
+```mvn dockerfile:build```
+
+Run 
+```docker run com/mihome-api:latest```
+
