@@ -1,14 +1,14 @@
 package com.mihome.api.config;
 
-import com.mihome.api.core.device.XiaomiGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class GatewayConfiguration {
+public class WebConfiguration {
 
     @Bean
-    public XiaomiGateway gateway() {
-        return XiaomiGateway.discover();
+    public WebClient webClient() {
+        return WebClient.create();
     }
 }

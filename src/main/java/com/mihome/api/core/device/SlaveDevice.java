@@ -30,9 +30,9 @@ public abstract class SlaveDevice {
         return sid;
     }
 
-    public short getShortId() {
-        throw new NotImplementedException("Method is not implemented yet"); // TODO implement
-    }
+//    public short getShortId() {
+//        throw new NotImplementedException("Method is not implemented yet"); // TODO implement
+//    }
 
     abstract void update(String data);
 
