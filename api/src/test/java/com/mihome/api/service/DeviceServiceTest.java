@@ -4,8 +4,8 @@ import com.mihome.api.core.device.SlaveDevice;
 import com.mihome.api.core.device.XiaomiDoorWindowSensor;
 import com.mihome.api.core.device.XiaomiGateway;
 import com.mihome.api.model.dto.SubscriptionData;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
-class DeviceServiceTest {
+public class DeviceServiceTest {
 
     @Mock
     private XiaomiGateway gateway;
@@ -29,13 +29,13 @@ class DeviceServiceTest {
     @Spy
     private WebClient webClient = WebClient.create();
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void subscribe() {
+    public void subscribe() {
         final String deviceSid = "112233445566";
         XiaomiDoorWindowSensor doorWindowSensor = new XiaomiDoorWindowSensor(gateway, deviceSid);
 
