@@ -1,7 +1,6 @@
 REST and Java API for interacting with Xiaomi Smart Home devices.
 
 ## Capabilities
-
 Devices supported by API which connect to a gateway through Zigbee:
 * Xiaomi Door and Window Sensor
 * Xiaomi Button
@@ -19,12 +18,10 @@ cd api
 mvnw spring-boot:run
 ```
 #### Requirements
-
 - JDK 11. Check the compiler version with `javac -version` or `mvnw -version`
 
 # Docker
 Docker file location: 
-
 ```
 /api/Dockerfile
 ```
