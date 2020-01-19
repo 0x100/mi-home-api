@@ -1,7 +1,8 @@
-# XAAPI
-Java API for interacting with Aqara-compatible devices.
+REST and Java API for interacting with Xiaomi Smart Home devices.
 
-The ones which connect to a gateway through Zigbee:
+## Capabilities
+
+Devices supported by API which connect to a gateway through Zigbee:
 * Xiaomi Door and Window Sensor
 * Xiaomi Button
 * Xiaomi Plug (Socket)
@@ -12,43 +13,32 @@ Built-in into the gateway:
 * Xiaomi Gateway Light
 * Xiaomi Gateway Illumination Sensor
 
-## Examples
+## Build and run
+```
+cd api
+mvnw spring-boot:run
+```
+#### Requirements
 
-#### Discover
-```java
-XiaomiGateway gateway = XiaomiGateway.discover(); // works only for single gateway at the moment
+- JDK 11. Check the compiler version with `javac -version` or `mvnw -version`
+
+# Docker
+Docker file location: 
+
+```
+/api/Dockerfile
 ```
 
-#### Bind manually
-```java
-XiaomiGateway gateway = new XiaomiGateway("192.168.1.105"); // works for multiple gateways
+### Build image 
+```
+cd api
+mvnw dockerfile:build
 ```
 
-#### Subscribe and receive updates
-```java
-IInteractiveDevice.SubscriptionToken illuminationChangeSubscriptionToken =
-    gateway.getBuiltinIlluminationSensor().subscribeForIlluminationChange((Integer value) -> System.out.println("Illumination changed to: " + value));
-
-String buttonSid = "158d0001232e95";
-IInteractiveDevice.SubscriptionToken buttonActionsSubscriptionToken =
-    gateway.getDevice(buttonSid).asXiaomiSwitchButton().subscribeForActions((String action) -> System.out.println("Button: " + action));
-
-ExecutorService threadPool = Executors.newFixedThreadPool(1);
-gateway.startReceivingUpdates(threadPool);
-threadPool.awaitTermination(60, TimeUnit.SECONDS); // run for 60 seconds
+### Run 
+```
+docker run com/mihome-api:latest
 ```
 
-#### Unsubscribe
-```java
-// cancelling subscription is optional
-gateway.getDevice(buttonSid).asXiaomiSwitchButton().unsubscribeForActions(buttonActionsSubscriptionToken);
-```
-
-## Docker
-Docker file - projectDir/Dockerfile
-Build image 
-```mvn dockerfile:build```
-
-Run 
-```docker run com/mihome-api:latest```
-
+# Examples
+See the [samples](https://github.com/0x100/mi-home-api/tree/master/samples/src/main/java/com/mihome/api/samples) module
