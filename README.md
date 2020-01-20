@@ -58,7 +58,7 @@ XIAOMI_SOCKET
 XIAOMI_MOTION_SENSOR
 XIAOMI_SWITCH_BUTTON
 ```
-- POST `/subscribe` - subscribe on events from a specified device.
+- POST `/devices/subscribe` - subscribe on events from a specified device.
 Request params example:
 ```json
 {
