@@ -1,6 +1,7 @@
-<img src="https://user-images.githubusercontent.com/1588120/72687893-7285a500-3b13-11ea-832c-ef6bb43f3279.png" width="64px" height="64px"/>
-
-###
+![build](https://github.com/0x100/mi-home-api/workflows/build/badge.svg?branch=master)
+[![license](https://img.shields.io/github/license/0x100/mi-home-api)](https://github.com/0x100/mi-home-api/blob/master/LICENSE)
+![forks](https://img.shields.io/github/forks/0x100/mi-home-api)
+![issues](https://img.shields.io/github/issues/0x100/mi-home-api)
 
 REST and Java API for interacting with Xiaomi Smart Home devices.
 
@@ -76,6 +77,3 @@ That URI must take following parameters:
   "action": "Name of the fired event (action)"
 }
 ```
-
-##
-Thanks to [FreePik](https://www.freepik.com/) for the logo.
