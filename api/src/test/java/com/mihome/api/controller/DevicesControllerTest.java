@@ -1,6 +1,7 @@
 package com.mihome.api.controller;
 
 
+import com.mihome.api.core.device.XiaomiGateway;
 import com.mihome.api.core.enums.SlaveDeviceType;
 import com.mihome.api.model.dto.SubscriptionData;
 import com.mihome.api.service.DeviceService;
@@ -25,6 +26,9 @@ public class DevicesControllerTest {
 
     @MockBean
     private DeviceService deviceService;
+
+    @MockBean
+    private XiaomiGateway xiaomiGateway;
 
 
     @Test
