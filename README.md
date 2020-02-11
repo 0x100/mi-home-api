@@ -1,9 +1,10 @@
+
 ![build](https://github.com/0x100/mi-home-api/workflows/build/badge.svg?branch=master)
 [![license](https://img.shields.io/github/license/0x100/mi-home-api)](https://github.com/0x100/mi-home-api/blob/master/LICENSE)
-![forks](https://img.shields.io/github/forks/0x100/mi-home-api)
 ![issues](https://img.shields.io/github/issues/0x100/mi-home-api)
+![last-commit](https://img.shields.io/github/last-commit/0x100/mi-home-api)
 
-REST and Java API for interacting with Xiaomi Smart Home devices.
+REST and Java API for interacting with Xiaomi Smart Home devices
 
 ## Capabilities
 Devices supported by the API which connect to a gateway through Zigbee:
